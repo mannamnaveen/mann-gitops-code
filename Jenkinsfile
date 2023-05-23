@@ -45,5 +45,26 @@ pipeline {
                 sh "docker rmi ${IMAGE_NAME}:latest"
             }
         }
+        stage('Updating the K8S deployment.yaml file'){
+            steps{
+                sh "cat deployment.yml"
+                sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yml "
+                sh "cat deployment.yml"
+            }
+        }
+        stage('Push the changes to main branch'){
+            steps{
+                script{
+                    sh """
+                      git config --global user.name "mannamnaveen"
+                      git config --global user.email "mina@naveenmannam.com"
+                      git add deployment.yml
+                      git commit -m 'Updated the image tag in deployment.yml'"""
+                      withCredentials([usernamePassword(credentialsId: 'GitHub', passwordVariable: 'password', usernameVariable: 'username')]) {
+                      sh "git push http://$username:$password@github.com/mannamnaveen/mann-gitops-code.git main"
+                    }
+                }
+            }
+        }
     }
 }
