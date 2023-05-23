@@ -61,7 +61,7 @@ pipeline {
                       git add deployment.yml
                       git commit -m 'Updated the image tag in deployment.yml'"""
                       withCredentials([usernamePassword(credentialsId: 'GitHub', passwordVariable: 'password', usernameVariable: 'username')]) {
-                      sh "git push http://$username:$password@github.com/mannamnaveen/mann-gitops-code.git main"
+                      sh "git push https://$username:$password@github.com/mannamnaveen/mann-gitops-code.git main"
                     }
                 }
             }
