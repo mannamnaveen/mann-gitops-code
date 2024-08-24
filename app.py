@@ -25,7 +25,7 @@ app = Flask(__name__)
 @app.route("/details")
 def details():
     hostname, ip, mac = get_device_details()
-    out = "Hello!!!....I'm " + hostname + "....My MACID is " + \
+    out = "Hello!....I'm " + hostname + "....My MACID is " + \
         mac + "....and My IP address is "+ip
     return out
 
