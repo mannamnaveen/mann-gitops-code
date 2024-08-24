@@ -18,6 +18,7 @@ pipeline {
         }
         stage('Checkout SCM'){
             steps{
+                echo "Downloading the script"
                 git branch: 'main', credentialsId: 'GitHub', url: 'https://github.com/mannamnaveen/mann-gitops-code.git'
             }
         }
