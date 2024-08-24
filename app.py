@@ -39,7 +39,7 @@ def health():
 
 @app.route("/")
 def home():
-    return "Hello from DevOps Made Easy"
+    return "Hello, the flask app"
 
 
 if __name__ == "__main__":
