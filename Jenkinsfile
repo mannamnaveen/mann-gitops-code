@@ -23,12 +23,22 @@ pipeline {
             }
         }
         stage('Checkout SCM'){
+            agent {
+                docker {
+                  image 'python:3.12.5-alpine3.19'
+                }
+            }
             steps{
                 echo "Downloading the script"
                 git branch: 'main', credentialsId: 'GitHub', url: 'https://github.com/mannamnaveen/mann-gitops-code.git'
             }
         }
         stage('Build the docker image'){
+            agent {
+                docker {
+                  image 'python:3.12.5-alpine3.19'
+                }
+            }
             steps{
                 script{
                     echo "Build the docker image"
@@ -37,6 +47,11 @@ pipeline {
             }
         }
         stage('Push the image'){
+            agent {
+                docker {
+                  image 'python:3.12.5-alpine3.19'
+                }
+            }
             steps{
                 script{
                     docker.withRegistry('docker'){
