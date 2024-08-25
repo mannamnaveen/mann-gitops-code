@@ -9,7 +9,7 @@ pipeline {
 
     }
     stages {
-        stage('Cleanup the workspace'){ agent {
+        stage('Cleanup the workspace'){
             steps {
                 script {
                     cleanWs()
@@ -69,5 +69,4 @@ pipeline {
             }
         }
     }
-}
 }
