@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
     environment {
         DOCKERHUB_USERNAME = "manrala"
         APP_NAME = "mann-gitops"
