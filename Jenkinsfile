@@ -14,6 +14,7 @@ pipeline {
                 docker {
                   image 'python:3.12.5-alpine3.19'
                 }
+            }
             steps {
                 script {
                     echo "cleanup"
