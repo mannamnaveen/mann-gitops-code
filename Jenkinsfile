@@ -35,7 +35,7 @@ pipeline {
             steps{
                 script{
                     docker.withRegistry('docker'){
-                        sh "push"
+                        sh "docker push ${IMAGE_NAME}:{IMAGE_TAG}"
                     }
                 }
             }
@@ -43,7 +43,6 @@ pipeline {
         stage('Delete the docker image'){
             steps{
                 sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
-                sh "docker rmi ${IMAGE_NAME}:latest"
             }
         }
         stage('Updating the K8S deployment.yaml file'){
