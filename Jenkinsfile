@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
     environment {
         DOCKERHUB_USERNAME = "manrala"
         APP_NAME = "mann-gitops"
@@ -10,6 +10,10 @@ pipeline {
     }
     stages {
         stage('Cleanup the workspace'){
+            agent {
+                docker {
+                  image 'python:3.12.5-alpine3.19'
+                }
             steps {
                 script {
                     echo "cleanup"
