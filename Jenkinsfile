@@ -9,7 +9,12 @@ pipeline {
 
     }
     stages {
-        stage('Cleanup the workspace'){
+        stage('Cleanup the workspace'){ agent {
+            docker {
+              image 'maven:3.9.6-eclipse-temurin-17-alpine'
+                }
+              }
+            
             steps {
                 script {
                     cleanWs()
