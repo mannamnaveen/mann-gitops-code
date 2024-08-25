@@ -35,7 +35,7 @@ pipeline {
             steps{
                 script{
                     docker.withRegistry('docker'){
-                        sh "docker push ${IMAGE_NAME}:{IMAGE_TAG}"
+                        sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
                     }
                 }
             }
