@@ -27,17 +27,15 @@ pipeline {
             steps{
                 script{
                     echo "Build the docker image"
-                    docker_image = docker.build "${IMAGE_NAME}"
+                    sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
                 }
             }
         }
         stage('Push the image'){
             steps{
                 script{
-                    docker.withRegistry('docker', REGISTRY_CREDS){
-                        docker_image.push("${BUILD_NUMBER}")
-                        docker_image.push("latest")
-
+                    docker.withRegistry('docker'){
+                        sh "push"
                     }
                 }
             }
