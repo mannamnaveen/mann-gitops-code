@@ -1,2 +1,165 @@
-runner-config.json
-.vscode/
+# Byte-compiled / optimized / DLL files
+
+__pycache__/
+
+
+
+# C extensions
+
+*.so
+
+
+
+# Distribution / packaging
+
+.build/
+
+develop-eggs/
+
+dist/
+
+downloads/
+
+eggs/
+
+.eggs/
+
+lib/
+
+lib64/
+
+parts/
+
+sdist/
+
+var/
+
+wheels/
+
+share/python-wheels/
+
+*.egg-info/
+
+.installed.cfg
+
+*.egg
+
+MANIFEST
+
+
+
+# PyInstaller
+
+*.spec
+
+*.dist-info
+
+
+
+# Poetry local configuration
+
+poetry.toml
+
+
+
+# Ruff configuration
+
+.ruff_cache/
+
+
+
+# LSP config files
+
+pyrightconfig.json
+
+
+
+# Celery stuff
+
+celerybeat-schedule
+
+celerybeat.pid
+
+
+
+# SageMath parsed files
+
+*.sage.py
+
+
+
+# Environments
+
+.env
+
+.venv
+
+env/
+
+venv/
+
+ENV/
+
+env.bak/
+
+venv.bak/
+
+
+
+# Spyder project settings
+
+.spyderproject
+
+.spyproject
+
+
+
+# Rope project settings
+
+.ropeproject
+
+
+
+# mkdocs documentation
+
+/site
+
+
+
+# mypy configuration
+
+.mypy_cache/
+
+.dmypy.json
+
+dmypy.json
+
+
+
+# Pyre type checker
+
+.pyre/
+
+
+
+# pytype static type analyzer
+
+.pytype/
+
+
+
+# Cython debug symbols
+
+cython_debug/
+
+
+
+# JetBrains IDE settings
+
+.idea/
+
+*.iml
+
+out/
+
+gen/
