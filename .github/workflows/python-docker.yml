@@ -6,9 +6,7 @@ on:
       - main
 
 jobs:
-
   build-and-push:
-    needs: test
     runs-on: ubuntu-latest
     env:
       COMMIT_SHA: ${{ github.sha }}
