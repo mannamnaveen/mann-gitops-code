@@ -6,9 +6,7 @@ on:
       - main  # Trigger on pushes to main branch, adjust as needed
 
 jobs:
-
   build-and-push:
-    needs: test  # Run after tests
     runs-on: ubuntu-latest
     env:
       COMMIT_SHA: ${{ github.sha }}  # Store the commit SHA
