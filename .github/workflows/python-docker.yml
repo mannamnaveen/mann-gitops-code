@@ -49,6 +49,7 @@ jobs:
           IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:${{ env.COMMIT_SHA }}
           cd mann-gitops-config
           ls -lrt
+          echo $IMAGE_TAG
           sed -i "s|image: .*|image: $IMAGE_TAG|g" manifests/deployment.yml
           git config --global user.email "mina@naveenmannam.com"
           git config --global user.name "oaleev"
