@@ -22,13 +22,13 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:${{ env.COMMIT_SHA }}
+          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:build-${{ github.run_id }}
           docker build -t $IMAGE_TAG .
           echo "Docker image built with tag $IMAGE_TAG"
 
       - name: Push Docker image
         run: |
-          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:${{ env.COMMIT_SHA }}
+          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:build-${{ github.run_id }}
           docker push $IMAGE_TAG
           echo "Docker image pushed to Docker Hub successfully with tag $IMAGE_TAG"
 
@@ -46,7 +46,7 @@ jobs:
 
       - name: Update image in deployment manifest
         run: |
-          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:${{ env.COMMIT_SHA }}
+          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:build-${{ github.run_id }}
           cd mann-gitops-config
           ls -lrt
           echo $IMAGE_TAG
