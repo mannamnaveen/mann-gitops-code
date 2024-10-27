@@ -3,13 +3,15 @@ name: Python Docker CI/CD
 on:
   push:
     branches:
-      - main  # Trigger on pushes to main branch, adjust as needed
+      - main
 
 jobs:
+
   build-and-push:
+    needs: test
     runs-on: ubuntu-latest
     env:
-      COMMIT_SHA: ${{ github.sha }}  # Store the commit SHA
+      COMMIT_SHA: ${{ github.sha }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,35 +24,35 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/your-repo:${{ env.COMMIT_SHA }}
+          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:${{ env.COMMIT_SHA }}
           docker build -t $IMAGE_TAG .
           echo "Docker image built with tag $IMAGE_TAG"
 
       - name: Push Docker image
         run: |
-          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/your-repo:${{ env.COMMIT_SHA }}
+          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:${{ env.COMMIT_SHA }}
           docker push $IMAGE_TAG
           echo "Docker image pushed to Docker Hub successfully with tag $IMAGE_TAG"
 
   update-config:
-    needs: build-and-push  # Run after Docker push
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout config repo
         uses: actions/checkout@v3
         with:
-          repository: your-org/config-repo  # Replace with your config repo (e.g., org/repo)
+          repository: https://github.com/oaleev/mann-gitops-config.git
           token: ${{ secrets.GITHUB_TOKEN }}
-          path: config-repo  # Clones config repo into a folder named config-repo
-          ref: main  # Replace with your branch name if needed
+          path: mann-gitops-config
+          ref: main
 
       - name: Update image in deployment manifest
         run: |
-          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/your-repo:${{ env.COMMIT_SHA }}
-          sed -i "s|image: .*|image: $IMAGE_TAG|g" config-repo/path/to/manifest.yaml
-          cd config-repo
-          git config --global user.email "ci-bot@example.com"
-          git config --global user.name "CI Bot"
+          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:${{ env.COMMIT_SHA }}
+          sed -i "s|image: .*|image: $IMAGE_TAG|g" mann-gitops-config/manifests/deployment.yaml
+          cd mann-gitops-config
+          git config --global user.email "mina@naveenmannam.com"
+          git config --global user.name "oaleev"
           git add .
           git commit -m "Update image to $IMAGE_TAG"
-          git push origin main  # Replace 'main' if using a different branch
+          git push origin main
