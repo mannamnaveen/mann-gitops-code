@@ -1,0 +1,77 @@
+name: Python Docker CI/CD
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to main branch, adjust as needed
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Set to your Python version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          python -m unittest discover -s tests
+
+  build-and-push:
+    needs: test  # Run after tests
+    runs-on: ubuntu-latest
+    env:
+      COMMIT_SHA: ${{ github.sha }}  # Store the commit SHA
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: |
+          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/your-repo:${{ env.COMMIT_SHA }}
+          docker build -t $IMAGE_TAG .
+          echo "Docker image built with tag $IMAGE_TAG"
+
+      - name: Push Docker image
+        run: |
+          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/your-repo:${{ env.COMMIT_SHA }}
+          docker push $IMAGE_TAG
+          echo "Docker image pushed to Docker Hub successfully with tag $IMAGE_TAG"
+
+  update-config:
+    needs: build-and-push  # Run after Docker push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout config repo
+        uses: actions/checkout@v3
+        with:
+          repository: your-org/config-repo  # Replace with your config repo (e.g., org/repo)
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: config-repo  # Clones config repo into a folder named config-repo
+          ref: main  # Replace with your branch name if needed
+
+      - name: Update image in deployment manifest
+        run: |
+          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/your-repo:${{ env.COMMIT_SHA }}
+          sed -i "s|image: .*|image: $IMAGE_TAG|g" config-repo/path/to/manifest.yaml
+          cd config-repo
+          git config --global user.email "ci-bot@example.com"
+          git config --global user.name "CI Bot"
+          git add .
+          git commit -m "Update image to $IMAGE_TAG"
+          git push origin main  # Replace 'main' if using a different branch
