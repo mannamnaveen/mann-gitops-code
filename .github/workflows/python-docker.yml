@@ -39,7 +39,7 @@ jobs:
       - name: Checkout config repo
         uses: actions/checkout@v3
         with:
-          repository: oaleev/mann-gitops-config
+          repository: oaleev/mann-gitops-config.git
           token: ${{ secrets.GITHUB_TOKEN }}
           path: mann-gitops-config
           ref: main
