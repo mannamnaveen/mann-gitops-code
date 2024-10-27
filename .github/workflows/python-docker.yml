@@ -47,6 +47,7 @@ jobs:
       - name: Update image in deployment manifest
         run: |
           IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/flaskapp:${{ env.COMMIT_SHA }}
+          ls -lrt
           sed -i "s|image: .*|image: $IMAGE_TAG|g" mann-gitops-config/manifests/deployment.yaml
           cd mann-gitops-config
           git config --global user.email "mina@naveenmannam.com"
